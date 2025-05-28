@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  pedidos-api:
+    build: .
+    ports:
+      - "5007:5007"
+    depends_on:
+      - pedidos-db
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=pedidos-db;Database=PedidosDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+
+  pedidos-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
